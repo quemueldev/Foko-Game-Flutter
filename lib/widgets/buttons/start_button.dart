@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class MyStartButton extends StatefulWidget {
   final VoidCallback onPressed;
+  final bool isStop;
 
-  const MyStartButton({super.key, required this.onPressed});
+  const MyStartButton({
+    super.key, 
+    required this.onPressed,
+    required this.isStop
+    });
 
   @override
   State<MyStartButton> createState() => _MyStartButtonState();
@@ -24,7 +29,7 @@ class _MyStartButtonState extends State<MyStartButton> {
             ),
         ),
         child: Text(
-          'START', 
+          widget.isStop ? 'STOP' : "START", 
           style: TextStyle(
             color: Colors.black,
             fontSize: 30

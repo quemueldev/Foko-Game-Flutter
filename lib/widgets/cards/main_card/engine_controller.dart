@@ -8,6 +8,13 @@ class GameEngine {
   int? _lastIndex;
 
   int score = 0;
+  int highScore = 0;
+
+  void updateHighScore(){
+    if(score > highScore){
+      highScore = score;
+    }
+  }
 
   GameEngine({this.gridSize = 6});
 

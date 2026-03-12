@@ -32,6 +32,9 @@ class GameController extends ChangeNotifier {
 
   List<bool> get activeStates => List.unmodifiable(_activeStates);
   int get score => engine.score;
+  int get highScore => engine.highScore;
+
+  bool get isStart => _isRunning;
   
   
 
@@ -60,16 +63,23 @@ class GameController extends ChangeNotifier {
       notifyListeners();
     }
 
-    stop();
+    _stop();
     await Vibration.vibrate(
       duration: 600,
       amplitude: 255,
     );
   }
 
-  void stop() {
+  void _stop() {
     _activeStates = List.filled(_activeStates.length, false);
     _isRunning = false;
+    engine.updateHighScore();
+  }
+  void stopGameAction(){
+    _activeStates = List.filled(_activeStates.length, false);
+    _isRunning = false;
+    _remainingSeconds = 1;
+    engine.updateHighScore();
   }
 
   void handleTap(int index) {
@@ -91,7 +101,7 @@ class GameController extends ChangeNotifier {
 
   @override
   void dispose() {
-    stop();
+    _stop();
     super.dispose();
   }
 }

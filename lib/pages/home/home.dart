@@ -38,6 +38,7 @@ class _MyHomeState extends State<MyHome> {
     controller2.dispose();
     super.dispose();
   }
+  // add: quando clicar dnv reiniciar
   void _startGame(){
     homeController.resetDialog();
     controller1.start();
@@ -76,8 +77,12 @@ class _MyHomeState extends State<MyHome> {
                       
                       MyStartButton(
                         onPressed: () {
-                          _startGame();
+                          if (controller1.isStart){
+                            controller1.stopGameAction();
+                            controller2.stopGameAction();
+                          } else {_startGame();}
                         },
+                        isStop: controller1.isStart,
                       ),
                       const SizedBox(width: 50),
                       MyTimerCard(title:"00 : ${controller1.remainingSeconds.toString().padLeft(2, '0')}")
@@ -85,9 +90,7 @@ class _MyHomeState extends State<MyHome> {
                   );
                 },
               ),
-             
               MyMainCard(controller: controller2, inverted: false, color: Color(0xFF112b48),),
-             
             ],
           ),
         ),

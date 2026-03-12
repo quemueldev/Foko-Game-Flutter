@@ -11,12 +11,23 @@ class MyMainCard extends StatefulWidget {
     required this.inverted,
     required this.color,
     });
+  int getPlayer(){
+    late int resp;
+    inverted ? resp = 2 : resp = 1;
+    return resp;
+  }
 
   @override
   State<MyMainCard> createState() => _MyMainCardState();
 }
 
+
 class _MyMainCardState extends State<MyMainCard> {
+  final TextStyle _myTextStyle = TextStyle(
+    color: Colors.white,
+    fontSize: 20
+  );
+
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
@@ -27,21 +38,32 @@ class _MyMainCardState extends State<MyMainCard> {
         final card = Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 45),
           child: Container(
-            height: mq.size.height * 0.35,
+            height: mq.size.height * 0.36,
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: widget.color,
               borderRadius: BorderRadius.circular(14),
+              gradient: LinearGradient(
+                begin: AlignmentGeometry.topCenter,
+                end: AlignmentGeometry.bottomCenter,
+                colors: [
+                  widget.color,
+                  widget.color,
+                  Color(0xFF141414),
+                ],
+                stops: [0.0,0.98,1.0]
+              )
             ),
             child: Column(
               children: [
-                Text('SCORE : ${widget.controller.score}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20
-                  ),
+                Row(
+                  children: [
+                    SizedBox(width: 8),
+                    Text('HIGHTEST : ${widget.controller.highScore}', style: _myTextStyle),
+                    const Spacer(),
+                    Text('P${widget.getPlayer()} SCORE : ${widget.controller.score}', style: _myTextStyle),
+                    SizedBox(width: 8),
+                  ],
                 ),
-                SizedBox(height: 5,),
                 Expanded(
                   child: _SquareGrid(
                     activeStates: widget.controller.activeStates,
@@ -49,6 +71,7 @@ class _MyMainCardState extends State<MyMainCard> {
                     tapedId: widget.controller.tapedId,
                   ),
                 ),
+               
               ],
             ),
           ),
